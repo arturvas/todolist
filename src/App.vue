@@ -2,7 +2,7 @@
 import { reactive } from "vue";
 
 const estado = reactive({
-  filtro: "todas",
+  filtro: "Todas",
   tarefas: [
     {
       titulo: "Estudar ES6",
@@ -21,6 +21,23 @@ const estado = reactive({
 
 const getTarefasPendentes = () => {
   return estado.tarefas.filter((tarefa) => !tarefa.finalizada);
+};
+
+const getTarefasFinalizadas = () => {
+  return estado.tarefas.filter((tarefa) => tarefa.finalizada);
+};
+
+const getTarefasFiltradas = () => {
+  const { filtro } = estado;
+
+  switch (filtro) {
+    case "Pendentes":
+      return getTarefasPendentes();
+    case "Finalizadas":
+      return getTarefasFinalizadas();
+    default:
+      return estado.tarefas;
+  }
 };
 </script>
 
@@ -55,7 +72,7 @@ const getTarefasPendentes = () => {
       </div>
     </form>
     <ul class="list-group mt-4">
-      <li class="list-group-item" v-for="tarefa in estado.tarefas">
+      <li class="list-group-item" v-for="tarefa in getTarefasFiltradas()">
         <input
           :checked="tarefa.finalizada"
           :id="tarefa.titulo"
