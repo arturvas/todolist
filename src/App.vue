@@ -3,6 +3,7 @@ import { reactive } from "vue";
 
 const estado = reactive({
   filtro: "Todas",
+  tarefaTemp: "",
   tarefas: [
     {
       titulo: "Estudar ES6",
@@ -39,6 +40,14 @@ const getTarefasFiltradas = () => {
       return estado.tarefas;
   }
 };
+
+const cadastraTarefa = () => {
+  const tarefaNova = {
+    titulo: estado.tarefaTemp,
+    finalizada: false,
+  };
+  estado.tarefas.push(tarefaNova);
+};
 </script>
 
 <template>
@@ -47,24 +56,26 @@ const getTarefasFiltradas = () => {
       <h1>Minhas tarefas</h1>
       <p>Você possui {{ getTarefasPendentes().length }} tarefas pendentes</p>
     </header>
-    <form action="">
+    <form @submit.prevent="cadastraTarefa">
       <div class="row">
         <div class="col">
           <input
+            @change="(evento) => (estado.tarefaTemp = evento.target.value)"
+            required
             type="text"
             class="form-control"
             placeholder="Digite aqui a descrição da tarefa"
           />
         </div>
-        <div class="col-md-2">
-          <button class="btn btn-primary">Cadastrar</button>
+        <div class="col-md-1">
+          <button class="btn btn-outline-primary">Add +</button>
         </div>
         <div class="col-md-2">
           <select
             @change="(evento) => (estado.filtro = evento.target.value)"
-            class="form-control"
+            class="form-select"
           >
-            <option value="Todas">Todas tarefas</option>
+            <option value="Todas">Todas</option>
             <option value="Pendentes">Pendentes</option>
             <option value="Finalizadas">Finalizadas</option>
           </select>
@@ -74,6 +85,7 @@ const getTarefasFiltradas = () => {
     <ul class="list-group mt-4">
       <li class="list-group-item" v-for="tarefa in getTarefasFiltradas()">
         <input
+          @change="(evento) => (tarefa.finalizada = evento.target.checked)"
           :checked="tarefa.finalizada"
           :id="tarefa.titulo"
           type="checkbox"
