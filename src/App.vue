@@ -47,6 +47,7 @@ const cadastraTarefa = () => {
     finalizada: false,
   };
   estado.tarefas.push(tarefaNova);
+  estado.tarefaTemp = "";
 };
 </script>
 
@@ -60,6 +61,7 @@ const cadastraTarefa = () => {
       <div class="row">
         <div class="col">
           <input
+            :value="estado.tarefaTemp"
             @change="(evento) => (estado.tarefaTemp = evento.target.value)"
             required
             type="text"
