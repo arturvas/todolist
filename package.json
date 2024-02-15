@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "lint:check": "prettier --check .",
+    "lint:fix": "prettier --write .",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -14,6 +16,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.3",
+    "prettier": "^3.2.5",
     "vite": "^5.0.11"
   }
 }
